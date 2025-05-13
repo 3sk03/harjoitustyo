@@ -9,6 +9,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * SlotMachineGUI on graafinen versio kolikkopelille
+ */
+
+// KÄYTIN OPENAI CHATGBPT:TÄ TÄSSÄ AVUSTUKSESSA JOTTA SAISIN ALKUPERÄISEN KOLIKKOPELIN GRAAFISESTI NÄYTTÄMÄÄN HYVÄLTÄ.
+// KOSKA TÄMÄ OLI VÄHÄN VAIKEAMPAA KUIN LUULIN MUTTA TEIN ITSE KUNNES TULI JOKIN VIRHE MISTÄ EN PÄÄSSYT MILLÄÄN LÄPI.
 public class SlotMachineGUI extends JFrame {
 
     private static final int RIVIT = 3;
@@ -27,13 +33,15 @@ public class SlotMachineGUI extends JFrame {
 
     private final Random rand = new Random();
 
+    /**
+     * Luo käyttöliittymän ja alustaa komponentit
+     */
     public SlotMachineGUI() {
         setTitle("Kolikkopeli");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 400);
         setLayout(new BorderLayout());
 
-        // Slotit
         JPanel slotPaneeli = new JPanel(new GridLayout(RIVIT, SARAKKEET));
         for (int i = 0; i < RIVIT; i++) {
             for (int j = 0; j < SARAKKEET; j++) {
@@ -46,7 +54,6 @@ public class SlotMachineGUI extends JFrame {
         }
         add(slotPaneeli, BorderLayout.CENTER);
 
-        // Alapaneeli
         JPanel alaPaneeli = new JPanel(new GridLayout(3, 1));
 
         saldoLabel = new JLabel("Saldo: " + saldo + " kolikkoa", SwingConstants.CENTER);
@@ -64,6 +71,9 @@ public class SlotMachineGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Käynnistää animoidun pyöräytyksen
+     */
     private void pyoraytaAnimoidusti() {
         if (saldo < PYORAYTYS_HINTA) {
             viestiLabel.setText("Saldo loppui! Peli päättyi.");
@@ -99,6 +109,9 @@ public class SlotMachineGUI extends JFrame {
         }
     }
 
+    /**
+     * Tarkistaa onko pelaaja voittanut ja päivittää näkymän
+     */
     private void tarkistaVoitto() {
         boolean voitto = false;
         for (int i = 0; i < RIVIT; i++) {
@@ -117,10 +130,12 @@ public class SlotMachineGUI extends JFrame {
             naytaVoittoAnimaatio();
         } else {
             viestiLabel.setText("Ei voittoa tällä kertaa.");
-            soitaAani("lose.wav");
         }
     }
 
+    /**
+     * Näyttää animaation voiton yhteydessä
+     */
     private void naytaVoittoAnimaatio() {
         Timer animaatio = new Timer(50, null);
         animaatio.addActionListener(new ActionListener() {
@@ -150,6 +165,10 @@ public class SlotMachineGUI extends JFrame {
         animaatio.start();
     }
 
+    /**
+     * Toistaa äänitiedoston
+     * @param tiedostoNimi äänitiedoston nimi
+     */
     private void soitaAani(String tiedostoNimi) {
         try {
             File tiedosto = new File(tiedostoNimi);
@@ -163,6 +182,10 @@ public class SlotMachineGUI extends JFrame {
         }
     }
 
+    /**
+     * Käynnistää GUI:n Swingin säikeessä
+     * @param args Komentoriviparametri
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(SlotMachineGUI::new);
     }
